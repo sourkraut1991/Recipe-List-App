@@ -16,7 +16,7 @@ class RecipeModel:ObservableObject {
      
         self.recipes = DataService.getLocalData()
         
-        // Set the recipes property
+     
     }
     
 }
