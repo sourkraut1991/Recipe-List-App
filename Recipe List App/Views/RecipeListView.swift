@@ -15,30 +15,52 @@ struct RecipeListView: View {
         
         
         NavigationView {
-            List(model.recipes) { r in
+            VStack(alignment: .leading) {
+                Text("All Recipes")
+                    .bold()
+                    .padding(.top, 40)
+                    .font(Font.custom("Avenir Heavy", size: 24))
                 
-                NavigationLink(destination: RecipeDetailView(recipe:r),
-                               label: {
-                    
-                
-                    HStack(spacing: 20) {
-                        Image(r.image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 50,height: 50,alignment: .center)
-                            .clipped()
-                            .cornerRadius(5)
-                        Text(r.name)
+                ScrollView {
+                    LazyVStack(alignment: .leading) {
+                        
+                        ForEach(model.recipes) { r in
+                            
+                            NavigationLink(destination: RecipeDetailView(recipe:r),
+                                           label: {
+                                
+                                
+                                HStack(spacing: 20) {
+                                    Image(r.image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50,height: 50,alignment: .center)
+                                        .clipped()
+                                        .cornerRadius(5)
+                                    
+                                    VStack (alignment:.leading){
+                                        Text(r.name)
+                                            .foregroundColor(.black)
+                                            .font(Font.custom("Avenir Heavy", size: 16))
+                                        RecipeHighlights(highlights: r.highlights)
+                                    }
+                                }
+                            })
+                        }
                     }
-                })
+                    
                 }
-                .navigationTitle("All Recipes")
+             
             }
+            .navigationBarHidden(true)
+            .padding(.leading)
         }
     }
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeListView()
-    }
 }
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            RecipeListView()
+                .environmentObject(RecipeModel())
+        }
+    }
